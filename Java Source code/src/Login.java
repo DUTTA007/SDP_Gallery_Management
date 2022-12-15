@@ -59,6 +59,7 @@ public class Login {
 		frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
 		frame.getContentPane().setLayout(null);
 		
+		
 		JLabel lblArtGalleryManagement = new JLabel("ART GALLERY");
 		lblArtGalleryManagement.setForeground(UIManager.getColor("InternalFrame.activeTitleGradient"));
 		lblArtGalleryManagement.setHorizontalAlignment(SwingConstants.LEFT);
