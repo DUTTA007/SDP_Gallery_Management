@@ -1,23 +1,21 @@
-import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.EventQueue;
-
-import javax.swing.JFrame;
-import javax.swing.JPanel;
-import javax.swing.border.EmptyBorder;
-import javax.swing.JLabel;
-import javax.swing.JOptionPane;
-
 import java.awt.Font;
 import java.awt.Image;
-
-import javax.swing.SwingConstants;
-import javax.swing.JTextField;
-import javax.swing.ImageIcon;
-import javax.swing.JButton;
+import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.sql.PreparedStatement;
-import java.awt.event.ActionEvent;
-import java.awt.Color;
+
+import javax.swing.ImageIcon;
+import javax.swing.JButton;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+import javax.swing.JTextField;
+import javax.swing.SwingConstants;
+import javax.swing.WindowConstants;
+import javax.swing.border.EmptyBorder;
 
 public class DeleteCustomer extends JFrame {
 
@@ -31,6 +29,7 @@ public class DeleteCustomer extends JFrame {
 	java.sql.Connection connection=Connection.Dbconnection();
 	public static void main(String[] args) {
 		EventQueue.invokeLater(new Runnable() {
+			@Override
 			public void run() {
 				try {
 					DeleteCustomer frame = new DeleteCustomer(msg);
@@ -46,33 +45,34 @@ public class DeleteCustomer extends JFrame {
 	 * Create the frame.
 	 */
 	public DeleteCustomer(String msg) {
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 795, 450);
+		setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
+		setBounds(100, 100, 800, 600);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
-		
+
 		JLabel lblDeleteCustomer = new JLabel("DELETE CUSTOMER");
 		lblDeleteCustomer.setForeground(Color.WHITE);
 		lblDeleteCustomer.setHorizontalAlignment(SwingConstants.CENTER);
 		lblDeleteCustomer.setFont(new Font("Times New Roman", Font.BOLD, 36));
 		lblDeleteCustomer.setBounds(34, 121, 715, 42);
 		contentPane.add(lblDeleteCustomer);
-		
+
 		JLabel lblConfirmCustomerId = new JLabel("Confirm Customer ID");
 		lblConfirmCustomerId.setForeground(Color.WHITE);
 		lblConfirmCustomerId.setFont(new Font("Times New Roman", Font.PLAIN, 25));
 		lblConfirmCustomerId.setBounds(143, 198, 312, 22);
 		contentPane.add(lblConfirmCustomerId);
-		
+
 		CustID = new JTextField();
 		CustID.setColumns(10);
 		CustID.setBounds(388, 198, 302, 22);
 		contentPane.add(CustID);
-		
+
 		JButton button = new JButton("Delete");
 		button.addActionListener(new ActionListener() {
+			@Override
 			public void actionPerformed(ActionEvent e) {
 				try{
 					String msg1;
@@ -82,7 +82,7 @@ public class DeleteCustomer extends JFrame {
 					if(msg.equals(msg1)){
 					smt.execute();
 					JOptionPane.showMessageDialog(null,"Customer Deleted");}
-					else 
+					else
 						JOptionPane.showMessageDialog(null,"Incorrect Customer ID");
 					smt.close();
 				}
@@ -97,11 +97,11 @@ public class DeleteCustomer extends JFrame {
 		button.setFont(new Font("Times New Roman", Font.PLAIN, 20));
 		button.setBounds(339, 276, 89, 23);
 		contentPane.add(button);
-		
+
 		JLabel label = new JLabel("");
-		Image img= new ImageIcon(this.getClass().getResource("C.jpg")).getImage();
+		Image img= new ImageIcon(this.getClass().getResource("back.jpg")).getImage();
 		label.setIcon(new ImageIcon(img));
-		label.setBounds(0, 0, 779, 411);
+		label.setBounds(0, 0, 784, 561);
 		contentPane.add(label);
 	}
 

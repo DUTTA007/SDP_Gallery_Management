@@ -1,32 +1,33 @@
+import java.awt.Color;
 import java.awt.EventQueue;
+import java.awt.Font;
+import java.awt.Image;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 
+import javax.swing.ImageIcon;
+import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
-
-import java.awt.Font;
-import java.awt.Image;
-
-import javax.swing.SwingConstants;
 import javax.swing.JTextField;
-import javax.swing.JFormattedTextField;
-import javax.swing.ImageIcon;
-import javax.swing.JButton;
-import java.awt.event.ActionListener;
-import java.awt.event.ActionEvent;
-import java.sql.*;
-import java.awt.Color;
+import javax.swing.SwingConstants;
+import javax.swing.WindowConstants;
+import java.awt.Dialog.ModalExclusionType;
+import javax.swing.UIManager;
 public class Login {
 
 	private JFrame frame;
 	private JTextField textLogin;
-	private JTextField textLoginP;
 
-	/**
-	 * Launch the application.
-	 */
+	
+	 // Launch the application.
+	
 	public static void main(String[] args) {
 		EventQueue.invokeLater(new Runnable() {
+			@Override
 			public void run() {
 				try {
 					Login window = new Login();
@@ -38,73 +39,68 @@ public class Login {
 		});
 	}
 
-	/**
-	 * Create the application.
-	 */
+	
+	 // Create the application.
+	 
 	java.sql.Connection connection=null;
+	private JTextField textField;
 	public Login() {
 		initialize();
 		connection=Connection.Dbconnection();
 	}
 
-	/**
-	 * Initialize the contents of the frame.
-	 */
+	
+	 // Initialize the contents of the frame.
+	
 	private void initialize() {
 		frame = new JFrame();
-		frame.setBounds(100, 100, 795, 450);
-		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		frame.setResizable(false);
+		frame.setBounds(100, 100, 800, 600);
+		frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
 		frame.getContentPane().setLayout(null);
-		
-		JLabel lblArtGalleryManagement = new JLabel("ART GALLERY MANAGEMENT");
-		lblArtGalleryManagement.setForeground(Color.WHITE);
-		lblArtGalleryManagement.setHorizontalAlignment(SwingConstants.CENTER);
-		lblArtGalleryManagement.setFont(new Font("Times New Roman", Font.BOLD, 36));
-		lblArtGalleryManagement.setBounds(31, 88, 726, 41);
+
+		JLabel lblArtGalleryManagement = new JLabel("ART GALLERY");
+		lblArtGalleryManagement.setForeground(UIManager.getColor("InternalFrame.activeTitleGradient"));
+		lblArtGalleryManagement.setHorizontalAlignment(SwingConstants.LEFT);
+		lblArtGalleryManagement.setFont(new Font("Tahoma", Font.BOLD, 32));
+		lblArtGalleryManagement.setBounds(107, 105, 615, 41);
 		frame.getContentPane().add(lblArtGalleryManagement);
-		
+
 		textLogin = new JTextField();
-		textLogin.setBounds(334, 153, 174, 29);
+		textLogin.setBounds(107, 223, 225, 25);
 		frame.getContentPane().add(textLogin);
 		textLogin.setColumns(10);
-		
-		textLoginP = new JTextField();
-		textLoginP.setBounds(334, 200, 174, 29);
-		frame.getContentPane().add(textLoginP);
-		textLoginP.setColumns(10);
-		
-		JLabel lblEnterTheUser = new JLabel("Enter the Email ID:");
-		lblEnterTheUser.setForeground(Color.WHITE);
-		lblEnterTheUser.setFont(new Font("Times New Roman", Font.BOLD, 25));
-		lblEnterTheUser.setBounds(108, 153, 233, 29);
-		frame.getContentPane().add(lblEnterTheUser);
-		
-		JLabel lblEnterThePass = new JLabel("Enter the Password:");
-		lblEnterThePass.setForeground(Color.WHITE);
-		lblEnterThePass.setFont(new Font("Times New Roman", Font.BOLD, 25));
-		lblEnterThePass.setBounds(108, 200, 233, 29);
-		frame.getContentPane().add(lblEnterThePass);
-		
-		JLabel lblNewLabel = new JLabel("No User ID? Register as");
-		lblNewLabel.setForeground(Color.WHITE);
-		lblNewLabel.setFont(new Font("Times New Roman", Font.BOLD, 25));
-		lblNewLabel.setBounds(84, 244, 398, 35);
-		frame.getContentPane().add(lblNewLabel);
-		
-		JButton btnCustomer = new JButton("Customer");
-		btnCustomer.addActionListener(new ActionListener() {
+
+		JLabel lblEMail = new JLabel("E-Mail");
+		lblEMail.setHorizontalAlignment(SwingConstants.LEFT);
+		lblEMail.setForeground(UIManager.getColor("scrollbar"));
+		lblEMail.setFont(new Font("Tahoma", Font.PLAIN, 15));
+		lblEMail.setBounds(107, 197, 60, 29);
+		frame.getContentPane().add(lblEMail);
+
+		JLabel lblNewMember = new JLabel("New Member ?");
+		lblNewMember.setForeground(Color.WHITE);
+		lblNewMember.setFont(new Font("Tahoma", Font.BOLD, 20));
+		lblNewMember.setBounds(107, 378, 192, 35);
+		frame.getContentPane().add(lblNewMember);
+
+		JButton btnRegister = new JButton("Create an Account");
+		btnRegister.setForeground(UIManager.getColor("Label.foreground"));
+		btnRegister.addActionListener(new ActionListener() {
+			@Override
 			public void actionPerformed(ActionEvent arg0) {
 				frame.dispose();
 				CustomerRegisteration CR= new CustomerRegisteration();
 				CR.setVisible(true);
 			}
 		});
-		btnCustomer.setFont(new Font("Times New Roman", Font.PLAIN, 20));
-		btnCustomer.setBounds(84, 306, 174, 23);
-		frame.getContentPane().add(btnCustomer);
-		
+		btnRegister.setFont(new Font("Tahoma", Font.PLAIN, 17));
+		btnRegister.setBounds(107, 412, 222, 23);
+		frame.getContentPane().add(btnRegister);
+
 		JButton btnArtist = new JButton("Artist");
 		btnArtist.addActionListener(new ActionListener() {
+			@Override
 			public void actionPerformed(ActionEvent e) {
 				frame.dispose();
 				ArtistRegistration AR= new ArtistRegistration();
@@ -112,23 +108,25 @@ public class Login {
 			}
 		});
 		btnArtist.setFont(new Font("Times New Roman", Font.PLAIN, 20));
-		btnArtist.setBounds(84, 340, 174, 23);
+		btnArtist.setBounds(578, 465, 174, 23);
 		frame.getContentPane().add(btnArtist);
-		
+
 		JButton btnNewButton = new JButton("Gallery");
 		btnNewButton.setFont(new Font("Times New Roman", Font.PLAIN, 20));
 		btnNewButton.addActionListener(new ActionListener() {
+			@Override
 			public void actionPerformed(ActionEvent arg0) {
 				frame.dispose();
 				GalleryRegistration GR= new GalleryRegistration();
 				GR.setVisible(true);
 			}
 		});
-		btnNewButton.setBounds(84, 374, 174, 23);
+		btnNewButton.setBounds(582, 499, 174, 23);
 		frame.getContentPane().add(btnNewButton);
-		
-		JButton btnNewButton_1 = new JButton("Login");
-		btnNewButton_1.addActionListener(new ActionListener() {
+
+		JButton btnLogin = new JButton("Login");
+		btnLogin.addActionListener(new ActionListener() {
+			@Override
 			public void actionPerformed(ActionEvent e) {
 				try{
 					PreparedStatement smt1= connection.prepareStatement("select * from ARTIST where Artist_ID=?");
@@ -188,23 +186,62 @@ public class Login {
 									JOptionPane.showMessageDialog(null,"Invalid User ID");
 							}
 						}
-						
+
 					}
 				}
 				 catch(Exception ex){
 					   JOptionPane.showMessageDialog(null,ex);
 				   }
-				
+
 			}
 		});
-		btnNewButton_1.setFont(new Font("Times New Roman", Font.PLAIN, 20));
-		btnNewButton_1.setBounds(547, 200, 155, 29);
-		frame.getContentPane().add(btnNewButton_1);
 		
-		JLabel lblNewLabel_1 = new JLabel("");
-		Image img= new ImageIcon(this.getClass().getResource("C.jpg")).getImage();
-		lblNewLabel_1.setIcon(new ImageIcon(img));
-		lblNewLabel_1.setBounds(0, 0, 779, 411);
-		frame.getContentPane().add(lblNewLabel_1);
+		
+		
+		btnLogin.setFont(new Font("Tahoma", Font.PLAIN, 15));
+		btnLogin.setBounds(106, 320, 118, 25);
+		frame.getContentPane().add(btnLogin);
+		Image img= new ImageIcon(this.getClass().getResource("back.jpg")).getImage();
+		
+		JLabel lblPass = new JLabel("Password");
+		lblPass.setHorizontalAlignment(SwingConstants.LEFT);
+		lblPass.setForeground(UIManager.getColor("scrollbar"));
+		lblPass.setFont(new Font("Tahoma", Font.PLAIN, 15));
+		lblPass.setBounds(106, 247, 80, 29);
+		frame.getContentPane().add(lblPass);
+		
+		textField = new JTextField();
+		textField.setColumns(10);
+		textField.setBounds(107, 274, 225, 25);
+		frame.getContentPane().add(textField);
+		
+		JLabel lblSeperator2 = new JLabel("________________________________________________________");
+		lblSeperator2.setHorizontalAlignment(SwingConstants.LEFT);
+		lblSeperator2.setForeground(UIManager.getColor("Label.disabledShadow"));
+		lblSeperator2.setBounds(107, 361, 428, 14);
+		frame.getContentPane().add(lblSeperator2);
+		
+		JLabel lblSignIn = new JLabel("Sign in");
+		lblSignIn.setForeground(UIManager.getColor("window"));
+		lblSignIn.setFont(new Font("Tahoma", Font.PLAIN, 25));
+		lblSignIn.setBounds(107, 157, 101, 29);
+		frame.getContentPane().add(lblSignIn);
+		
+		JLabel lblSeperator1 = new JLabel("________________________________________________________________________________");
+		lblSeperator1.setBounds(107, 182, 521, 14);
+		frame.getContentPane().add(lblSeperator1);
+		
+		JLabel lblMemberName = new JLabel("User");
+		lblMemberName.setForeground(UIManager.getColor("ToolTip.background"));
+		lblMemberName.setFont(new Font("Tahoma", Font.PLAIN, 20));
+		lblMemberName.setBounds(10, 11, 100, 35);
+		frame.getContentPane().add(lblMemberName);
+		
+		
+		JLabel lblBackground = new JLabel("");
+		lblBackground.setIcon(new ImageIcon(img));
+		lblBackground.setBounds(0, 0, 784, 561);
+		frame.getContentPane().add(lblBackground);
+
 	}
 }

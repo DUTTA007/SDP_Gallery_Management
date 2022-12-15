@@ -1,25 +1,24 @@
-import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.EventQueue;
-
-import javax.swing.JFrame;
-import javax.swing.JPanel;
-import javax.swing.border.EmptyBorder;
-
-import net.proteanit.sql.DbUtils;
-
-import javax.swing.JLabel;
 import java.awt.Font;
 import java.awt.Image;
-
-import javax.swing.SwingConstants;
-import javax.swing.ImageIcon;
-import javax.swing.JButton;
-import javax.swing.JTable;
+import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
-import java.awt.event.ActionEvent;
-import java.awt.Color;
+
+import javax.swing.ImageIcon;
+import javax.swing.JButton;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+import javax.swing.JTable;
+import javax.swing.SwingConstants;
+import javax.swing.UIManager;
+import javax.swing.WindowConstants;
+import javax.swing.border.EmptyBorder;
+
+import net.proteanit.sql.DbUtils;
 
 public class Manager extends JFrame {
 
@@ -35,6 +34,7 @@ public class Manager extends JFrame {
 	java.sql.Connection connection2=Connection.Dbconnection();
 	public static void main(String[] args) {
 		EventQueue.invokeLater(new Runnable() {
+			@Override
 			public void run() {
 				try {
 					Manager frame = new Manager(msg);
@@ -50,13 +50,13 @@ public class Manager extends JFrame {
 	 * Create the frame.
 	 */
 	public Manager(String msg) {
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 795, 450);
+		setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
+		setBounds(100, 100, 800, 600);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
-		
+
 		JLabel lblManager = new JLabel("MANAGER");
 		lblManager.setForeground(Color.WHITE);
 		lblManager.setHorizontalAlignment(SwingConstants.CENTER);
@@ -65,6 +65,7 @@ public class Manager extends JFrame {
 		contentPane.add(lblManager);
 		JButton btnAddArtworkTo = new JButton("Add Artwork to Gallery");
 		btnAddArtworkTo.addActionListener(new ActionListener() {
+			@Override
 			public void actionPerformed(ActionEvent e) {
 				contentPane.setVisible(false);
 				dispose();
@@ -76,7 +77,7 @@ public class Manager extends JFrame {
 		btnAddArtworkTo.setFont(new Font("Times New Roman", Font.PLAIN, 20));
 		btnAddArtworkTo.setBounds(24, 64, 251, 37);
 		contentPane.add(btnAddArtworkTo);
-		
+
 		table = new JTable();
 		table.setBounds(25, 162, 733, 227);
 		contentPane.add(table);
@@ -95,9 +96,10 @@ public class Manager extends JFrame {
 		catch(Exception e){
 			e.printStackTrace();
 		}
-		
+
 		JButton button_1 = new JButton("Logout");
 		button_1.addActionListener(new ActionListener() {
+			@Override
 			public void actionPerformed(ActionEvent e) {
 				contentPane.setVisible(false);
 				dispose();
@@ -107,15 +109,16 @@ public class Manager extends JFrame {
 		button_1.setFont(new Font("Times New Roman", Font.PLAIN, 20));
 		button_1.setBounds(641, 64, 116, 37);
 		contentPane.add(button_1);
-		
+
 		JLabel lblArtWorkAvailable = new JLabel("Art work available in your category:");
 		lblArtWorkAvailable.setForeground(Color.WHITE);
 		lblArtWorkAvailable.setFont(new Font("Times New Roman", Font.BOLD, 24));
 		lblArtWorkAvailable.setBounds(24, 112, 551, 29);
 		contentPane.add(lblArtWorkAvailable);
-		
+
 		JButton btnAddArtworkTo_1 = new JButton("Add Artwork to Exhibition");
 		btnAddArtworkTo_1.addActionListener(new ActionListener() {
+			@Override
 			public void actionPerformed(ActionEvent arg0) {
 				contentPane.setVisible(false);
 				dispose();
@@ -127,51 +130,57 @@ public class Manager extends JFrame {
 		btnAddArtworkTo_1.setFont(new Font("Times New Roman", Font.PLAIN, 20));
 		btnAddArtworkTo_1.setBounds(330, 64, 257, 37);
 		contentPane.add(btnAddArtworkTo_1);
-		
+
 		JButton button = new JButton("Art_ID");
 		button.setFont(new Font("Times New Roman", Font.PLAIN, 12));
 		button.setBounds(25, 140, 92, 23);
 		contentPane.add(button);
-		
+
 		JButton button_2 = new JButton("Artist_ID");
 		button_2.setFont(new Font("Times New Roman", Font.PLAIN, 12));
 		button_2.setBounds(116, 140, 93, 23);
 		contentPane.add(button_2);
-		
+
 		JButton button_3 = new JButton("Name");
 		button_3.setFont(new Font("Times New Roman", Font.PLAIN, 12));
 		button_3.setBounds(205, 140, 96, 23);
 		contentPane.add(button_3);
-		
+
 		JButton button_4 = new JButton("Year");
 		button_4.setFont(new Font("Times New Roman", Font.PLAIN, 12));
 		button_4.setBounds(300, 140, 92, 23);
 		contentPane.add(button_4);
-		
+
 		JButton button_5 = new JButton("Cat_ID");
 		button_5.setFont(new Font("Times New Roman", Font.PLAIN, 12));
 		button_5.setBounds(390, 140, 94, 23);
 		contentPane.add(button_5);
-		
+
 		JButton button_6 = new JButton("Price");
 		button_6.setFont(new Font("Times New Roman", Font.PLAIN, 12));
 		button_6.setBounds(483, 140, 92, 23);
 		contentPane.add(button_6);
-		
+
 		JButton button_7 = new JButton("Gallery_ID");
 		button_7.setFont(new Font("Times New Roman", Font.PLAIN, 12));
 		button_7.setBounds(574, 140, 93, 23);
 		contentPane.add(button_7);
-		
+
 		JButton button_8 = new JButton("Exhib_ID");
 		button_8.setFont(new Font("Times New Roman", Font.PLAIN, 12));
 		button_8.setBounds(666, 140, 91, 23);
 		contentPane.add(button_8);
 		
+		JLabel lblAdmin = new JLabel("Admin");
+		lblAdmin.setForeground(UIManager.getColor("ToolTip.background"));
+		lblAdmin.setFont(new Font("Tahoma", Font.PLAIN, 20));
+		lblAdmin.setBounds(10, 11, 100, 35);
+		contentPane.add(lblAdmin);
+
 		JLabel label = new JLabel("");
-		Image img= new ImageIcon(this.getClass().getResource("C.jpg")).getImage();
+		Image img= new ImageIcon(this.getClass().getResource("back.jpg")).getImage();
 		label.setIcon(new ImageIcon(img));
-		label.setBounds(0, 0, 779, 411);
+		label.setBounds(0, 0, 784, 561);
 		contentPane.add(label);
 	}
 }

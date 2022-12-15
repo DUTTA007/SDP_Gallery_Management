@@ -1,24 +1,25 @@
-import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.EventQueue;
-
-import javax.swing.JFrame;
-import javax.swing.JPanel;
-import javax.swing.border.EmptyBorder;
-import javax.swing.JLabel;
-import javax.swing.JOptionPane;
-
 import java.awt.Font;
 import java.awt.Image;
-
-import javax.swing.SwingConstants;
-import javax.swing.JTextField;
-import javax.swing.ImageIcon;
-import javax.swing.JButton;
+import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
-import java.awt.event.ActionEvent;
-import java.awt.Color;
+
+import javax.swing.ImageIcon;
+import javax.swing.JButton;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+import javax.swing.JTextField;
+import javax.swing.SwingConstants;
+import javax.swing.WindowConstants;
+import javax.swing.border.EmptyBorder;
+import javax.swing.UIManager;
+import java.awt.Label;
+import java.awt.TextField;
 
 public class AddArtwork extends JFrame {
 
@@ -30,6 +31,7 @@ public class AddArtwork extends JFrame {
 	 */
 	public static void main(String[] args) {
 		EventQueue.invokeLater(new Runnable() {
+			@Override
 			public void run() {
 				try {
 					AddArtwork frame = new AddArtwork(msg);
@@ -40,7 +42,7 @@ public class AddArtwork extends JFrame {
 			}
 		});
 	}
-	
+
 	/**
 	 * Create the frame.
 	 */
@@ -49,32 +51,33 @@ public class AddArtwork extends JFrame {
 	java.sql.Connection connection1=Connection.Dbconnection();
 	java.sql.Connection connection2=Connection.Dbconnection();
 	public AddArtwork(String msg) {
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 795, 450);
+		setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
+		setBounds(100, 100, 800, 600);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
-		
+
 		JLabel label = new JLabel("NEW ART WORK");
 		label.setForeground(Color.WHITE);
-		label.setHorizontalAlignment(SwingConstants.CENTER);
-		label.setFont(new Font("Times New Roman", Font.BOLD, 36));
-		label.setBounds(54, 103, 715, 42);
+		label.setHorizontalAlignment(SwingConstants.LEFT);
+		label.setFont(new Font("Tahoma", Font.BOLD, 36));
+		label.setBounds(70, 103, 699, 42);
 		contentPane.add(label);
-		
-		JLabel label_1 = new JLabel("Art ID");
-		label_1.setForeground(Color.WHITE);
-		label_1.setFont(new Font("Times New Roman", Font.PLAIN, 25));
-		label_1.setBounds(205, 171, 151, 27);
-		contentPane.add(label_1);
-		
+
+		JLabel lblArtId = new JLabel("Art ID");
+		lblArtId.setForeground(Color.WHITE);
+		lblArtId.setFont(new Font("Tahoma", Font.PLAIN, 20));
+		lblArtId.setBounds(70, 296, 90, 27);
+		contentPane.add(lblArtId);
+
 		ArtID = new JTextField();
 		ArtID.setColumns(10);
-		ArtID.setBounds(366, 176, 302, 22);
+		ArtID.setBounds(173, 302, 302, 22);
 		contentPane.add(ArtID);
 		JButton button = new JButton("Submit");
 		button.addActionListener(new ActionListener() {
+			@Override
 			public void actionPerformed(ActionEvent e) {
 				try{
 					PreparedStatement smt= connection1.prepareStatement("Select Gallery_ID from MANAGER where Manager_ID=?");
@@ -98,15 +101,25 @@ public class AddArtwork extends JFrame {
 				M.setVisible(true);
 			}
 		});
-		button.setFont(new Font("Times New Roman", Font.PLAIN, 20));
-		button.setBounds(301, 240, 89, 23);
+		button.setFont(new Font("Tahoma", Font.PLAIN, 20));
+		button.setBounds(375, 402, 100, 30);
 		contentPane.add(button);
 		
-		JLabel label_2 = new JLabel("");
-		Image img= new ImageIcon(this.getClass().getResource("C.jpg")).getImage();
-		label_2.setIcon(new ImageIcon(img));
-		label_2.setBounds(0, 0, 779, 411);
-		contentPane.add(label_2);
+		JLabel lblArtist = new JLabel("Artist");
+		lblArtist.setForeground(UIManager.getColor("ToolTip.background"));
+		lblArtist.setFont(new Font("Tahoma", Font.PLAIN, 20));
+		lblArtist.setBounds(10, 11, 100, 35);
+		contentPane.add(lblArtist);
+		Image img= new ImageIcon(this.getClass().getResource("back.jpg")).getImage();
+						
+						JButton btnUploadArt = new JButton("Upload ART");
+						btnUploadArt.setFont(new Font("Tahoma", Font.PLAIN, 25));
+						btnUploadArt.setBounds(173, 335, 302, 42);
+						contentPane.add(btnUploadArt);
+				
+						JLabel label_2 = new JLabel("");
+						label_2.setIcon(new ImageIcon(img));
+						label_2.setBounds(0, 0, 784, 561);
+						contentPane.add(label_2);
 	}
-
 }
