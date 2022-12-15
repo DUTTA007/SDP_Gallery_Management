@@ -63,7 +63,7 @@ public class Login {
 		lblArtGalleryManagement.setForeground(UIManager.getColor("InternalFrame.activeTitleGradient"));
 		lblArtGalleryManagement.setHorizontalAlignment(SwingConstants.LEFT);
 		lblArtGalleryManagement.setFont(new Font("Tahoma", Font.BOLD, 32));
-		lblArtGalleryManagement.setBounds(107, 75, 615, 41);
+		lblArtGalleryManagement.setBounds(107, 105, 615, 41);
 		frame.getContentPane().add(lblArtGalleryManagement);
 
 		textLogin = new JTextField();
