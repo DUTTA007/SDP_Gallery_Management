@@ -1,23 +1,22 @@
-import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.EventQueue;
-
-import javax.swing.JFrame;
-import javax.swing.JPanel;
-import javax.swing.border.EmptyBorder;
-import javax.swing.JLabel;
-import javax.swing.JOptionPane;
-
 import java.awt.Font;
 import java.awt.Image;
-
-import javax.swing.SwingConstants;
-import javax.swing.JTextField;
-import javax.swing.ImageIcon;
-import javax.swing.JButton;
+import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.sql.PreparedStatement;
-import java.awt.event.ActionEvent;
-import java.awt.Color;
+
+import javax.swing.ImageIcon;
+import javax.swing.JButton;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+import javax.swing.JTextField;
+import javax.swing.SwingConstants;
+import javax.swing.WindowConstants;
+import javax.swing.border.EmptyBorder;
+import javax.swing.UIManager;
 
 public class DeleteManager extends JFrame {
 
@@ -32,6 +31,7 @@ public class DeleteManager extends JFrame {
 	java.sql.Connection connection=Connection.Dbconnection();
 	public static void main(String[] args) {
 		EventQueue.invokeLater(new Runnable() {
+			@Override
 			public void run() {
 				try {
 					DeleteManager frame = new DeleteManager(msg);
@@ -47,44 +47,45 @@ public class DeleteManager extends JFrame {
 	 * Create the frame.
 	 */
 	public DeleteManager(String msg) {
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 795, 451);
+		setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
+		setBounds(100, 100, 800, 600);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
-		
+
 		JLabel lblDeleteManager = new JLabel("DELETE MANAGER");
 		lblDeleteManager.setForeground(Color.WHITE);
 		lblDeleteManager.setHorizontalAlignment(SwingConstants.CENTER);
 		lblDeleteManager.setFont(new Font("Times New Roman", Font.BOLD, 36));
 		lblDeleteManager.setBounds(36, 88, 715, 42);
 		contentPane.add(lblDeleteManager);
-		
+
 		JLabel lblManagerId = new JLabel("Manager ID");
 		lblManagerId.setForeground(Color.WHITE);
 		lblManagerId.setFont(new Font("Times New Roman", Font.PLAIN, 25));
 		lblManagerId.setBounds(141, 161, 161, 29);
 		contentPane.add(lblManagerId);
-		
+
 		MID = new JTextField();
 		MID.setColumns(10);
 		MID.setBounds(348, 161, 302, 22);
 		contentPane.add(MID);
-		
+
 		JLabel lblConfirmGalleryId = new JLabel("Confirm Gallery ID");
 		lblConfirmGalleryId.setForeground(Color.WHITE);
 		lblConfirmGalleryId.setFont(new Font("Times New Roman", Font.PLAIN, 25));
 		lblConfirmGalleryId.setBounds(141, 224, 212, 29);
 		contentPane.add(lblConfirmGalleryId);
-		
+
 		GID = new JTextField();
 		GID.setColumns(10);
 		GID.setBounds(348, 224, 302, 22);
 		contentPane.add(GID);
-		
+
 		JButton button = new JButton("Delete");
 		button.addActionListener(new ActionListener() {
+			@Override
 			public void actionPerformed(ActionEvent e) {
 				try{
 					PreparedStatement smt= connection.prepareStatement("Delete from MANAGER where Manager_ID=? and Gallery_ID=?");
@@ -112,10 +113,16 @@ public class DeleteManager extends JFrame {
 		button.setBounds(303, 288, 89, 23);
 		contentPane.add(button);
 		
+		JLabel lblAdmin = new JLabel("Admin");
+		lblAdmin.setForeground(UIManager.getColor("ToolTip.background"));
+		lblAdmin.setFont(new Font("Tahoma", Font.PLAIN, 20));
+		lblAdmin.setBounds(10, 11, 100, 35);
+		contentPane.add(lblAdmin);
+
 		JLabel label = new JLabel("");
-		Image img= new ImageIcon(this.getClass().getResource("C.jpg")).getImage();
+		Image img= new ImageIcon(this.getClass().getResource("back.jpg")).getImage();
 		label.setIcon(new ImageIcon(img));
-		label.setBounds(0, 0, 779, 456);
+		label.setBounds(0, 0, 784, 561);
 		contentPane.add(label);
 	}
 

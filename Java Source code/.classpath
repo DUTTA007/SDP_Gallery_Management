@@ -6,8 +6,9 @@
 			<attribute name="module" value="true"/>
 		</attributes>
 	</classpathentry>
-	<classpathentry kind="lib" path="C:/Users/Tanmay/OneDrive/Documents/mysql-connector-j-8.0.31/mysql-connector-j-8.0.31/mysql-connector-j-8.0.31.jar"/>
-	<classpathentry kind="lib" path="C:/Users/Tanmay/OneDrive/Documents/SDP/rs2xml.jar"/>
-	<classpathentry kind="lib" path="C:/Users/Tanmay/OneDrive/Documents/mysql-connector-j-8.0.31/jcalendar-1.4.jar"/>
+	<classpathentry kind="lib" path="C:/Program Files (x86)/MySQL/Connector J 8.0/mysql-connector-j-8.0.31.jar"/>
+	<classpathentry kind="lib" path="D:/eclipse-workspace/Java Source code/rs2xml.jar"/>
+	<classpathentry kind="lib" path="D:/eclipse-workspace/Java Source code/jcalendar-1.4.jar"/>
+	<classpathentry kind="lib" path="jgoodies-forms-1.8.0.jar" sourcepath="jgoodies-forms-1.8.0-sources.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

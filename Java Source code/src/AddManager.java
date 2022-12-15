@@ -1,23 +1,22 @@
-import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.EventQueue;
-
-import javax.swing.JFrame;
-import javax.swing.JPanel;
-import javax.swing.border.EmptyBorder;
-import javax.swing.JLabel;
-import javax.swing.JOptionPane;
-
 import java.awt.Font;
 import java.awt.Image;
-
-import javax.swing.SwingConstants;
-import javax.swing.JTextField;
-import javax.swing.ImageIcon;
-import javax.swing.JButton;
+import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.sql.PreparedStatement;
-import java.awt.event.ActionEvent;
-import java.awt.Color;
+
+import javax.swing.ImageIcon;
+import javax.swing.JButton;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+import javax.swing.JTextField;
+import javax.swing.SwingConstants;
+import javax.swing.WindowConstants;
+import javax.swing.border.EmptyBorder;
+
 import com.toedter.calendar.JDateChooser;
 
 public class AddManager extends JFrame {
@@ -39,6 +38,7 @@ public class AddManager extends JFrame {
 	java.sql.Connection connection=Connection.Dbconnection();
 	public static void main(String[] args) {
 		EventQueue.invokeLater(new Runnable() {
+			@Override
 			public void run() {
 				try {
 					AddManager frame = new AddManager(msg);
@@ -54,83 +54,84 @@ public class AddManager extends JFrame {
 	 * Create the frame.
 	 */
 	public AddManager(String msg) {
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 795, 450);
+		setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
+		setBounds(100, 100, 800, 600);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
-		
+
 		JLabel lblNewManager = new JLabel("NEW MANAGER");
 		lblNewManager.setForeground(Color.WHITE);
 		lblNewManager.setHorizontalAlignment(SwingConstants.CENTER);
 		lblNewManager.setFont(new Font("Times New Roman", Font.BOLD, 36));
 		lblNewManager.setBounds(35, 11, 715, 42);
 		contentPane.add(lblNewManager);
-		
+
 		JLabel lblManagerId = new JLabel("Manager ID");
 		lblManagerId.setForeground(Color.WHITE);
 		lblManagerId.setFont(new Font("Times New Roman", Font.PLAIN, 25));
 		lblManagerId.setBounds(140, 64, 161, 29);
 		contentPane.add(lblManagerId);
-		
+
 		JLabel lblManagerName = new JLabel("Manager Name");
 		lblManagerName.setForeground(Color.WHITE);
 		lblManagerName.setFont(new Font("Times New Roman", Font.PLAIN, 25));
 		lblManagerName.setBounds(140, 104, 161, 29);
 		contentPane.add(lblManagerName);
-		
+
 		JLabel lblManagerPhno = new JLabel("Manager PhNo");
 		lblManagerPhno.setForeground(Color.WHITE);
 		lblManagerPhno.setFont(new Font("Times New Roman", Font.PLAIN, 25));
 		lblManagerPhno.setBounds(140, 144, 161, 29);
 		contentPane.add(lblManagerPhno);
-		
+
 		JLabel lblStartDate = new JLabel("Start Date");
 		lblStartDate.setForeground(Color.WHITE);
 		lblStartDate.setFont(new Font("Times New Roman", Font.PLAIN, 25));
 		lblStartDate.setBounds(140, 184, 161, 29);
 		contentPane.add(lblStartDate);
-		
+
 		JLabel lblSalary = new JLabel("Salary");
 		lblSalary.setForeground(Color.WHITE);
 		lblSalary.setFont(new Font("Times New Roman", Font.PLAIN, 25));
 		lblSalary.setBounds(140, 224, 161, 29);
 		contentPane.add(lblSalary);
-		
+
 		JLabel lblConfirmGalleryId = new JLabel("Confirm Gallery ID");
 		lblConfirmGalleryId.setForeground(Color.WHITE);
 		lblConfirmGalleryId.setFont(new Font("Times New Roman", Font.PLAIN, 25));
 		lblConfirmGalleryId.setBounds(140, 337, 212, 29);
 		contentPane.add(lblConfirmGalleryId);
-		
+
 		ManagerID = new JTextField();
 		ManagerID.setColumns(10);
 		ManagerID.setBounds(347, 64, 302, 22);
 		contentPane.add(ManagerID);
-		
+
 		ManagerName = new JTextField();
 		ManagerName.setColumns(10);
 		ManagerName.setBounds(347, 104, 302, 22);
 		contentPane.add(ManagerName);
-		
+
 		ManagerPhNo = new JTextField();
 		ManagerPhNo.setColumns(10);
 		ManagerPhNo.setBounds(347, 144, 302, 22);
 		contentPane.add(ManagerPhNo);
-		
+
 		Salary = new JTextField();
 		Salary.setColumns(10);
 		Salary.setBounds(347, 224, 302, 22);
 		contentPane.add(Salary);
-		
+
 		GalleryID = new JTextField();
 		GalleryID.setColumns(10);
 		GalleryID.setBounds(347, 337, 302, 22);
 		contentPane.add(GalleryID);
-		
+
 		JButton button = new JButton("Submit");
 		button.addActionListener(new ActionListener() {
+			@Override
 			public void actionPerformed(ActionEvent e) {
 				try{
 					PreparedStatement smt= connection.prepareStatement("insert into MANAGER values (?,?,?,?,?,?,?,?)");
@@ -163,31 +164,32 @@ public class AddManager extends JFrame {
 		button.setFont(new Font("Times New Roman", Font.PLAIN, 20));
 		button.setBounds(458, 377, 89, 23);
 		contentPane.add(button);
-		
+
 		JLabel lblGender = new JLabel("Gender");
 		lblGender.setForeground(Color.WHITE);
 		lblGender.setFont(new Font("Times New Roman", Font.PLAIN, 25));
 		lblGender.setBounds(140, 264, 161, 29);
 		contentPane.add(lblGender);
-		
+
 		Gender = new JTextField();
 		Gender.setColumns(10);
 		Gender.setBounds(347, 264, 302, 22);
 		contentPane.add(Gender);
-		
+
 		JLabel lblCategoryId = new JLabel("Category ID");
 		lblCategoryId.setForeground(Color.WHITE);
 		lblCategoryId.setFont(new Font("Times New Roman", Font.PLAIN, 25));
 		lblCategoryId.setBounds(140, 304, 161, 29);
 		contentPane.add(lblCategoryId);
-		
+
 		CategoryID = new JTextField();
 		CategoryID.setColumns(10);
 		CategoryID.setBounds(347, 304, 302, 22);
 		contentPane.add(CategoryID);
-		
+
 		JButton button_1 = new JButton("View Categories");
 		button_1.addActionListener(new ActionListener() {
+			@Override
 			public void actionPerformed(ActionEvent e) {
 				contentPane.setVisible(false);
 				dispose();
@@ -198,17 +200,17 @@ public class AddManager extends JFrame {
 		button_1.setFont(new Font("Times New Roman", Font.PLAIN, 20));
 		button_1.setBounds(140, 377, 183, 23);
 		contentPane.add(button_1);
-		
+
 		 dateChooser = new JDateChooser();
 		dateChooser.setDateFormatString("yyyy-MM-dd");
 		dateChooser.setBounds(347, 184, 302, 20);
 		contentPane.add(dateChooser);
-		
+
 		JLabel label = new JLabel("");
-		Image img= new ImageIcon(this.getClass().getResource("C.jpg")).getImage();
+		Image img= new ImageIcon(this.getClass().getResource("back.jpg")).getImage();
 		label.setIcon(new ImageIcon(img));
-		label.setBounds(0, 0, 779, 411);
+		label.setBounds(0, 0, 784, 561);
 		contentPane.add(label);
-		
+
 	}
 }
