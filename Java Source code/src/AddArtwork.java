@@ -1,4 +1,5 @@
 import java.awt.Color;
+import java.awt.Container;
 import java.awt.EventQueue;
 import java.awt.Font;
 import java.awt.Image;
@@ -8,7 +9,6 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.List;
 import java.util.ArrayList;
-
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -30,6 +30,8 @@ public class AddArtwork extends JFrame {
 
 	private JPanel contentPane;
 	private JTextField tbxName;
+	String paintingTypeName;
+	int ptype_id;
 
 	java.sql.Connection connection = Connection.Dbconnection();
 
@@ -68,45 +70,59 @@ public class AddArtwork extends JFrame {
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
 
-		JLabel label = new JLabel("NEW ART WORK");
-		label.setForeground(Color.WHITE);
-		label.setHorizontalAlignment(SwingConstants.LEFT);
-		label.setFont(new Font("Tahoma", Font.BOLD, 36));
-		label.setBounds(30, 57, 398, 42);
-		contentPane.add(label);
+		JLabel lblAddNewArt = new JLabel("Add NEW ART WORK");
+		lblAddNewArt.setForeground(Color.WHITE);
+		lblAddNewArt.setHorizontalAlignment(SwingConstants.LEFT);
+		lblAddNewArt.setFont(new Font("Tahoma", Font.BOLD, 36));
+		lblAddNewArt.setBounds(136, 165, 398, 42);
+		contentPane.add(lblAddNewArt);
 
 		JLabel lblArtId = new JLabel("Art Name");
 		lblArtId.setForeground(Color.WHITE);
 		lblArtId.setFont(new Font("Tahoma", Font.PLAIN, 20));
-		lblArtId.setBounds(62, 142, 90, 27);
+		lblArtId.setBounds(178, 224, 90, 27);
 		contentPane.add(lblArtId);
+
+		JComboBox cBoxType = new JComboBox();
+		cBoxType.setBounds(278, 311, 302, 30);
+		contentPane.add(cBoxType);
+		try {
+
+			PreparedStatement pType = connection
+					.prepareStatement("SELECT PAINTING_TYPE_NAME FROM artgallery.painting_type");
+			ResultSet rs4 = pType.executeQuery();
+			while (rs4.next()) {
+				paintingTypeName = rs4.getString("PAINTING_TYPE_NAME");
+				cBoxType.addItem(paintingTypeName);
+			}
+		} catch (Exception a) {
+
+		}
 
 		tbxName = new JTextField();
 		tbxName.setColumns(10);
-		tbxName.setBounds(162, 144, 302, 30);
+		tbxName.setBounds(278, 226, 302, 30);
 		contentPane.add(tbxName);
-		JButton button = new JButton("Submit");
-		button.addActionListener(new ActionListener() {
+		JButton btnAdd = new JButton("Add");
+		btnAdd.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				try {
-					PreparedStatement pType = connection.prepareStatement("SELECT * FROM artgallery.painting_type");
-					pType.execute();
-				    ArrayList<String> pTypeList = new ArrayList<String>();
-				    var aaa = pType;
-				    System.out.println(aaa);
 
-				    
+					PreparedStatement pNanme = connection
+							.prepareStatement("SELECT PAINTING_TYPE_ID FROM painting_type where PAINTING_TYPE_NAME=?");
+					pNanme.setString(1, cBoxType.getSelectedItem().toString());
+					ResultSet rs5 = pNanme.executeQuery();
+					while (rs5.next()) {
+						ptype_id = rs5.getInt("PAINTING_TYPE_ID");
+					}
 
-					
-					
-					
 					PreparedStatement smt = connection.prepareStatement("insert " + "into  painting("
 							+ "PAINTING_TITLE, " + "PAINTING_DATE, " + "PAINTING_TYPE_ID, " + "USER_ID, "
 							+ "PAINTING_PURCHASE_FLG, " + "PAINTING_PRICE_EURO) " + "values (?,?,?,?,?,?)");
 					smt.setString(1, tbxName.getText());
 					smt.setString(2, tbxDate.getText());
-					smt.setString(3, "1");
+					smt.setInt(3, ptype_id);
 					smt.setString(4, "2");
 					smt.setInt(5, 0);
 					smt.setString(6, tbxPrice.getText());
@@ -124,9 +140,9 @@ public class AddArtwork extends JFrame {
 				M.setVisible(true);
 			}
 		});
-		button.setFont(new Font("Tahoma", Font.PLAIN, 20));
-		button.setBounds(364, 334, 100, 30);
-		contentPane.add(button);
+		btnAdd.setFont(new Font("Tahoma", Font.PLAIN, 20));
+		btnAdd.setBounds(480, 416, 100, 30);
+		contentPane.add(btnAdd);
 
 		JLabel lblArtist = new JLabel("Artist");
 		lblArtist.setForeground(UIManager.getColor("ToolTip.background"));
@@ -138,37 +154,31 @@ public class AddArtwork extends JFrame {
 		JLabel lblArtDate = new JLabel("Date");
 		lblArtDate.setForeground(Color.WHITE);
 		lblArtDate.setFont(new Font("Tahoma", Font.PLAIN, 20));
-		lblArtDate.setBounds(62, 187, 90, 27);
+		lblArtDate.setBounds(178, 269, 90, 27);
 		contentPane.add(lblArtDate);
 
 		JLabel lblArtType = new JLabel("Type");
 		lblArtType.setForeground(Color.WHITE);
 		lblArtType.setFont(new Font("Tahoma", Font.PLAIN, 20));
-		lblArtType.setBounds(62, 225, 90, 27);
+		lblArtType.setBounds(178, 307, 90, 27);
 		contentPane.add(lblArtType);
 
 		JLabel lblPrice = new JLabel("Price");
 		lblPrice.setForeground(Color.WHITE);
 		lblPrice.setFont(new Font("Tahoma", Font.PLAIN, 20));
-		lblPrice.setBounds(62, 263, 90, 27);
+		lblPrice.setBounds(178, 345, 90, 27);
 		contentPane.add(lblPrice);
 
 		tbxDate = new JTextField();
 		tbxDate.setText("2022-10-10");
 		tbxDate.setColumns(10);
-		tbxDate.setBounds(162, 185, 302, 30);
+		tbxDate.setBounds(278, 267, 302, 30);
 		contentPane.add(tbxDate);
 
 		tbxPrice = new JTextField();
-		tbxPrice.setText("100");
 		tbxPrice.setColumns(10);
-		tbxPrice.setBounds(162, 270, 302, 30);
+		tbxPrice.setBounds(278, 352, 302, 30);
 		contentPane.add(tbxPrice);
-
-		JComboBox cBoxType = new JComboBox();
-		cBoxType.setModel(new DefaultComboBoxModel(new String[] { "1", "2" }));
-		cBoxType.setBounds(162, 229, 302, 30);
-		contentPane.add(cBoxType);
 
 		JLabel label_2 = new JLabel("");
 		label_2.setIcon(new ImageIcon(img));
