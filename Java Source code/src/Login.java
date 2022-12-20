@@ -17,6 +17,7 @@ import javax.swing.SwingConstants;
 import javax.swing.WindowConstants;
 import java.awt.Dialog.ModalExclusionType;
 import javax.swing.UIManager;
+import javax.swing.JPasswordField;
 public class Login {
 
 	private JFrame frame;
@@ -43,7 +44,7 @@ public class Login {
 	 // Create the application.
 	 
 	java.sql.Connection connection=null;
-	private JTextField textField;
+	private JPasswordField passwordField;
 	public Login() {
 		initialize();
 		connection=Connection.Dbconnection();
@@ -58,7 +59,7 @@ public class Login {
 		frame.setBounds(100, 100, 800, 600);
 		frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
 		frame.getContentPane().setLayout(null);
-		
+
 		JLabel lblArtGalleryManagement = new JLabel("ART GALLERY");
 		lblArtGalleryManagement.setForeground(UIManager.getColor("InternalFrame.activeTitleGradient"));
 		lblArtGalleryManagement.setHorizontalAlignment(SwingConstants.LEFT);
@@ -98,71 +99,99 @@ public class Login {
 		btnRegister.setBounds(107, 412, 222, 23);
 		frame.getContentPane().add(btnRegister);
 
+		JButton btnArtist = new JButton("Artist");
+		btnArtist.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				frame.dispose();
+				ArtistRegistration AR= new ArtistRegistration();
+				AR.setVisible(true);
+			}
+		});
+		btnArtist.setFont(new Font("Times New Roman", Font.PLAIN, 20));
+		btnArtist.setBounds(578, 465, 174, 23);
+		frame.getContentPane().add(btnArtist);
+
+		JButton btnNewButton = new JButton("Gallery");
+		btnNewButton.setFont(new Font("Times New Roman", Font.PLAIN, 20));
+		btnNewButton.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				frame.dispose();
+				GalleryRegistration GR= new GalleryRegistration();
+				GR.setVisible(true);
+			}
+		});
+		btnNewButton.setBounds(582, 499, 174, 23);
+		frame.getContentPane().add(btnNewButton);
+
 		JButton btnLogin = new JButton("Login");
 		btnLogin.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				try{
-					PreparedStatement smt1= connection.prepareStatement("select * from users where user_id=? and user_entity='Artist'");
 					String msg=textLogin.getText();
+					String inputpass=String.valueOf(passwordField.getPassword());
+					SecurePasswordStorage passManager = new SecurePasswordStorage();
+					PreparedStatement smt1= connection.prepareStatement("SELECT USER_ID,USER_ENTITY FROM USERS WHERE REG_EMAIL_ID=?");
 					smt1.setString(1,msg);
 					ResultSet rs1=smt1.executeQuery();
-					int count=0;
-					while(rs1.next()){
-						count=count+1;
+					String userid = null; 
+					String entity = null; 
+					
+
+					
+					while (rs1.next()) {
+						userid = rs1.getString("USER_ID");
+						entity = rs1.getString("USER_ENTITY");
 					}
-					if(count==1){
+					System.out.println(userid);
+					System.out.println(entity);
+					
+					PreparedStatement smt2= connection.prepareStatement("SELECT PASSWORD_HASH,PASSWORD_SALT FROM LOGIN WHERE LOGIN_ID=?");
+					smt2.setString(1, userid);
+					ResultSet rs2=smt2.executeQuery();
+					
+					String dbpass = null; 
+					String salt = null;
+					
+					while (rs2.next()) {
+						dbpass = rs2.getString("PASSWORD_HASH");
+						salt = rs2.getString("PASSWORD_SALT");
+					}
+					System.out.println(dbpass);
+					System.out.println(salt);
+					
+					
+					if (passManager.authenticateUser(inputpass,salt,dbpass))
+					{
+					if(entity.equals("ARTIST")){
 						JOptionPane.showMessageDialog(null,"Logging in as an Artist");
 						frame.dispose();
-						Artist A= new Artist(msg);
+						Artist A= new Artist(userid);
 						A.setVisible(true);
+						}
+					else if(entity.equals("CUSTOMER")) {
+						JOptionPane.showMessageDialog(null,"Logging in as a Customer");
+						frame.dispose();
+						Customer C= new Customer(userid);
+						C.setVisible(true);
 					}
-					else if(count==0){
-						PreparedStatement smt2= connection.prepareStatement("select * from users where user_id=?");
-						smt2.setString(1,textLogin.getText());
-						ResultSet rs2=smt2.executeQuery();
-						while(rs2.next()){
-							count=count+1;
-						}
-						if(count==1){
-							JOptionPane.showMessageDialog(null,"Logging in as a Customer");
-							frame.dispose();
-							Customer C= new Customer(msg);
-							C.setVisible(true);
-						}
-						else if(count==0){
-							PreparedStatement smt3= connection.prepareStatement("select * from GALLERY where Gallery_ID=?");
-							smt3.setString(1,textLogin.getText());
-							ResultSet rs3=smt3.executeQuery();
-							while(rs3.next()){
-								count=count+1;
-							}
-							if(count==1){
-								JOptionPane.showMessageDialog(null,"Logging in as a Gallery");
-								frame.dispose();
-								Gallery G= new Gallery(msg);
-								G.setVisible(true);
-							}
-							else if(count==0){
-								PreparedStatement smt4= connection.prepareStatement("select * from MANAGER where Manager_ID=?");
-								smt4.setString(1,textLogin.getText());
-								ResultSet rs4=smt4.executeQuery();
-								while(rs4.next()){
-									count=count+1;
-								}
-								if(count==1){
-									JOptionPane.showMessageDialog(null,"Logging in as a Manager");
-									frame.dispose();
-									Manager M= new Manager(msg);
-									M.setVisible(true);
-								}
-								else
-									JOptionPane.showMessageDialog(null,"Invalid User ID");
-							}
-						}
-
+					else if(entity.equals("ADMIN")) {
+						JOptionPane.showMessageDialog(null,"Logging in as a Manager");
+						frame.dispose();
+						Manager M= new Manager(userid);
+						M.setVisible(true);
+					}
+					else {
+						JOptionPane.showMessageDialog(null,"Invalid User ID or Password");
+					}
+					}
+					else {
+						JOptionPane.showMessageDialog(null,"Invalid User ID or Password");
 					}
 				}
+				
 				 catch(Exception ex){
 					   JOptionPane.showMessageDialog(null,ex);
 				   }
@@ -183,11 +212,6 @@ public class Login {
 		lblPass.setFont(new Font("Tahoma", Font.PLAIN, 15));
 		lblPass.setBounds(106, 247, 80, 29);
 		frame.getContentPane().add(lblPass);
-		
-		textField = new JTextField();
-		textField.setColumns(10);
-		textField.setBounds(107, 274, 225, 25);
-		frame.getContentPane().add(textField);
 		
 		JLabel lblSeperator2 = new JLabel("________________________________________________________");
 		lblSeperator2.setHorizontalAlignment(SwingConstants.LEFT);
@@ -216,6 +240,10 @@ public class Login {
 		lblBackground.setIcon(new ImageIcon(img));
 		lblBackground.setBounds(0, 0, 784, 561);
 		frame.getContentPane().add(lblBackground);
+		
+		passwordField = new JPasswordField();
+		passwordField.setBounds(107, 277, 225, 19);
+		frame.getContentPane().add(passwordField);
 
 	}
 }
