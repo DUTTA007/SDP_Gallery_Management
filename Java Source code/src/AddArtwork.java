@@ -6,6 +6,9 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.util.List;
+import java.util.ArrayList;
+
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -20,11 +23,15 @@ import javax.swing.border.EmptyBorder;
 import javax.swing.UIManager;
 import java.awt.Label;
 import java.awt.TextField;
+import javax.swing.JComboBox;
+import javax.swing.DefaultComboBoxModel;
 
 public class AddArtwork extends JFrame {
 
 	private JPanel contentPane;
-	private JTextField ArtID;
+	private JTextField tbxName;
+
+	java.sql.Connection connection = Connection.Dbconnection();
 
 	/**
 	 * Launch the application.
@@ -46,10 +53,13 @@ public class AddArtwork extends JFrame {
 	/**
 	 * Create the frame.
 	 */
-	public static String msg=null;
-	public static String GID=null;
-	java.sql.Connection connection1=Connection.Dbconnection();
-	java.sql.Connection connection2=Connection.Dbconnection();
+	public static String msg = null;
+	public static String GID = null;
+	java.sql.Connection connection1 = Connection.Dbconnection();
+	java.sql.Connection connection2 = Connection.Dbconnection();
+	private JTextField tbxDate;
+	private JTextField tbxPrice;
+
 	public AddArtwork(String msg) {
 		setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
 		setBounds(100, 100, 800, 600);
@@ -62,64 +72,107 @@ public class AddArtwork extends JFrame {
 		label.setForeground(Color.WHITE);
 		label.setHorizontalAlignment(SwingConstants.LEFT);
 		label.setFont(new Font("Tahoma", Font.BOLD, 36));
-		label.setBounds(70, 103, 699, 42);
+		label.setBounds(30, 57, 398, 42);
 		contentPane.add(label);
 
-		JLabel lblArtId = new JLabel("Art ID");
+		JLabel lblArtId = new JLabel("Art Name");
 		lblArtId.setForeground(Color.WHITE);
 		lblArtId.setFont(new Font("Tahoma", Font.PLAIN, 20));
-		lblArtId.setBounds(70, 296, 90, 27);
+		lblArtId.setBounds(62, 142, 90, 27);
 		contentPane.add(lblArtId);
 
-		ArtID = new JTextField();
-		ArtID.setColumns(10);
-		ArtID.setBounds(173, 302, 302, 22);
-		contentPane.add(ArtID);
+		tbxName = new JTextField();
+		tbxName.setColumns(10);
+		tbxName.setBounds(162, 144, 302, 30);
+		contentPane.add(tbxName);
 		JButton button = new JButton("Submit");
 		button.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				try{
-					PreparedStatement smt= connection1.prepareStatement("Select Gallery_ID from MANAGER where Manager_ID=?");
-					smt.setString(1,msg);
-					ResultSet rs=smt.executeQuery();
-					if(rs.next())
-						GID=rs.getString("Gallery_ID");
-					PreparedStatement smt1= connection2.prepareStatement("update ARTWORK set Gallery_ID=? where Art_ID=?");
-					smt1.setString(1,GID);
-					smt1.setString(2,ArtID.getText());
-					smt1.execute();
-					JOptionPane.showMessageDialog(null,"Art work updated");
+				try {
+					PreparedStatement pType = connection.prepareStatement("SELECT * FROM artgallery.painting_type");
+					pType.execute();
+				    ArrayList<String> pTypeList = new ArrayList<String>();
+				    var aaa = pType;
+				    System.out.println(aaa);
+
+				    
+
+					
+					
+					
+					PreparedStatement smt = connection.prepareStatement("insert " + "into  painting("
+							+ "PAINTING_TITLE, " + "PAINTING_DATE, " + "PAINTING_TYPE_ID, " + "USER_ID, "
+							+ "PAINTING_PURCHASE_FLG, " + "PAINTING_PRICE_EURO) " + "values (?,?,?,?,?,?)");
+					smt.setString(1, tbxName.getText());
+					smt.setString(2, tbxDate.getText());
+					smt.setString(3, "1");
+					smt.setString(4, "2");
+					smt.setInt(5, 0);
+					smt.setString(6, tbxPrice.getText());
+
+					smt.executeUpdate();
+					JOptionPane.showMessageDialog(null, "Succesfully registered");
 					smt.close();
+
+				} catch (Exception ex) {
+					JOptionPane.showMessageDialog(null, ex);
 				}
-				 catch(Exception ex){
-					   JOptionPane.showMessageDialog(null,ex);
-				   }
 				contentPane.setVisible(false);
 				dispose();
-				Manager M= new Manager(msg);
+				Manager M = new Manager(msg);
 				M.setVisible(true);
 			}
 		});
 		button.setFont(new Font("Tahoma", Font.PLAIN, 20));
-		button.setBounds(375, 402, 100, 30);
+		button.setBounds(364, 334, 100, 30);
 		contentPane.add(button);
-		
+
 		JLabel lblArtist = new JLabel("Artist");
 		lblArtist.setForeground(UIManager.getColor("ToolTip.background"));
 		lblArtist.setFont(new Font("Tahoma", Font.PLAIN, 20));
 		lblArtist.setBounds(10, 11, 100, 35);
 		contentPane.add(lblArtist);
-		Image img= new ImageIcon(this.getClass().getResource("back.jpg")).getImage();
-						
-						JButton btnUploadArt = new JButton("Upload ART");
-						btnUploadArt.setFont(new Font("Tahoma", Font.PLAIN, 25));
-						btnUploadArt.setBounds(173, 335, 302, 42);
-						contentPane.add(btnUploadArt);
-				
-						JLabel label_2 = new JLabel("");
-						label_2.setIcon(new ImageIcon(img));
-						label_2.setBounds(0, 0, 784, 561);
-						contentPane.add(label_2);
+		Image img = new ImageIcon(this.getClass().getResource("back.jpg")).getImage();
+
+		JLabel lblArtDate = new JLabel("Date");
+		lblArtDate.setForeground(Color.WHITE);
+		lblArtDate.setFont(new Font("Tahoma", Font.PLAIN, 20));
+		lblArtDate.setBounds(62, 187, 90, 27);
+		contentPane.add(lblArtDate);
+
+		JLabel lblArtType = new JLabel("Type");
+		lblArtType.setForeground(Color.WHITE);
+		lblArtType.setFont(new Font("Tahoma", Font.PLAIN, 20));
+		lblArtType.setBounds(62, 225, 90, 27);
+		contentPane.add(lblArtType);
+
+		JLabel lblPrice = new JLabel("Price");
+		lblPrice.setForeground(Color.WHITE);
+		lblPrice.setFont(new Font("Tahoma", Font.PLAIN, 20));
+		lblPrice.setBounds(62, 263, 90, 27);
+		contentPane.add(lblPrice);
+
+		tbxDate = new JTextField();
+		tbxDate.setText("2022-10-10");
+		tbxDate.setColumns(10);
+		tbxDate.setBounds(162, 185, 302, 30);
+		contentPane.add(tbxDate);
+
+		tbxPrice = new JTextField();
+		tbxPrice.setText("100");
+		tbxPrice.setColumns(10);
+		tbxPrice.setBounds(162, 270, 302, 30);
+		contentPane.add(tbxPrice);
+
+		JComboBox cBoxType = new JComboBox();
+		cBoxType.setModel(new DefaultComboBoxModel(new String[] { "1", "2" }));
+		cBoxType.setBounds(162, 229, 302, 30);
+		contentPane.add(cBoxType);
+
+		JLabel label_2 = new JLabel("");
+		label_2.setIcon(new ImageIcon(img));
+		label_2.setBounds(0, 0, 784, 561);
+		contentPane.add(label_2);
 	}
 }
