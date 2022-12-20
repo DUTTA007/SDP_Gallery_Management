@@ -6,7 +6,7 @@ public class Connection {
    public static java.sql.Connection Dbconnection(){
 	   try{
 		   String username="root";
-		   String password="zaq1XSW@";
+		   String password="Password@123";
 		   Class.forName("com.mysql.cj.jdbc.Driver");
 		   java.sql.Connection con=DriverManager.getConnection("jdbc:mysql://localhost:3306/artgallery?autoReconnect=true&useSSL=false", username, password);
 		   return con;
