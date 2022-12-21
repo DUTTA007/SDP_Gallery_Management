@@ -76,7 +76,7 @@ public class DeleteArtist extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 				try{
 					String msg1;
-					PreparedStatement smt= connection.prepareStatement("Delete from ARTIST where Artist_ID=?");
+					PreparedStatement smt= connection.prepareStatement("Delete from users where user_id=?");
 					msg1=ArtistID.getText();
 					smt.setString(1,msg1);
 					if(msg1.equals(msg)){
