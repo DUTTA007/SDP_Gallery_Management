@@ -71,11 +71,11 @@ public class DeleteExhibition extends JFrame {
 		date.setBounds(345, 172, 302, 22);
 		contentPane.add(date);
 
-		JLabel label_2 = new JLabel("Confirm Gallery ID");
-		label_2.setForeground(Color.WHITE);
-		label_2.setFont(new Font("Times New Roman", Font.PLAIN, 25));
-		label_2.setBounds(138, 229, 212, 29);
-		contentPane.add(label_2);
+		JLabel lblConfirmExhibitionId = new JLabel("Confirm Exhibition ID");
+		lblConfirmExhibitionId.setForeground(Color.WHITE);
+		lblConfirmExhibitionId.setFont(new Font("Times New Roman", Font.PLAIN, 25));
+		lblConfirmExhibitionId.setBounds(103, 229, 232, 29);
+		contentPane.add(lblConfirmExhibitionId);
 
 		textField_1 = new JTextField();
 		textField_1.setColumns(10);
@@ -87,14 +87,14 @@ public class DeleteExhibition extends JFrame {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				try{
-					PreparedStatement smt= connection.prepareStatement("Delete from EXHIBITIONS where Exhibition_ID=?");
+					PreparedStatement smt= connection.prepareStatement("Delete from EXHIBITION where Exhibition_ID=?");
 					smt.setString(1,date.getText());
 					if(msg.equals(textField_1.getText())){
 						smt.execute();
 						JOptionPane.showMessageDialog(null,"Exhibition Deleted");
 					}
 					else
-						JOptionPane.showMessageDialog(null,"Incorrect Gallery ID");
+						JOptionPane.showMessageDialog(null,"Incorrect Exhibtion ID");
 					smt.close();
 				}
 				 catch(Exception ex){
@@ -102,7 +102,7 @@ public class DeleteExhibition extends JFrame {
 				   }
 				contentPane.setVisible(false);
 				dispose();
-				Ex G= new Ex(msg);
+				Manager G= new Manager(msg);
 				G.setVisible(true);
 			}
 		});

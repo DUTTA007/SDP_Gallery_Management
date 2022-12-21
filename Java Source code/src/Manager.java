@@ -19,6 +19,7 @@ import javax.swing.WindowConstants;
 import javax.swing.border.EmptyBorder;
 
 import net.proteanit.sql.DbUtils;
+import javax.swing.JScrollPane;
 
 public class Manager extends JFrame {
 
@@ -61,35 +62,37 @@ public class Manager extends JFrame {
 		lblManager.setForeground(Color.WHITE);
 		lblManager.setHorizontalAlignment(SwingConstants.CENTER);
 		lblManager.setFont(new Font("Times New Roman", Font.BOLD, 36));
-		lblManager.setBounds(24, 11, 733, 42);
+		lblManager.setBounds(0, 0, 733, 42);
 		contentPane.add(lblManager);
-		JButton btnAddArtworkTo = new JButton("Add Artwork to Gallery");
+		JButton btnAddArtworkTo = new JButton("UPDATE ARTWORK");
 		btnAddArtworkTo.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
+				try {
 				contentPane.setVisible(false);
 				dispose();
 				MID=msg;
-				AddArtwork AW= new AddArtwork(MID);
+				UpdateArtwork AW= new UpdateArtwork(MID);
 				AW.setVisible(true);
+				}
+				catch (Exception e2) {
+					e2.printStackTrace();
+				}
 			}
 		});
 		btnAddArtworkTo.setFont(new Font("Times New Roman", Font.PLAIN, 20));
-		btnAddArtworkTo.setBounds(24, 64, 251, 37);
+		btnAddArtworkTo.setBounds(24, 64, 233, 37);
 		contentPane.add(btnAddArtworkTo);
+		
+		JScrollPane scrollPane = new JScrollPane();
+		scrollPane.setBounds(25, 162, 733, 227);
+		contentPane.add(scrollPane);
 
 		table = new JTable();
-		table.setBounds(25, 162, 733, 227);
-		contentPane.add(table);
-		String CID=null;
+		scrollPane.setViewportView(table);
+
 		try{
-			PreparedStatement smt= connection1.prepareStatement("select Category_ID from MANAGER where Manager_ID=?");
-			smt.setString(1,msg);
-			ResultSet rs=smt.executeQuery();
-			if(rs.next())
-				CID=rs.getString("Category_ID");
-			PreparedStatement smt1= connection2.prepareStatement("select * from ARTWORK where Category_ID=? and (Gallery_ID is null or Exhibition_ID is null)");
-			smt1.setString(1,CID);
+			PreparedStatement smt1= connection2.prepareStatement("SELECT PAINTING_ID, PAINTING_TITLE, PAINTING_DATE, PAINTING_TYPE_ID, USER_ID, PAINTING_PRICE_EURO FROM PAINTING WHERE PAINTING_PURCHASE_FLG=0");
 			ResultSet rs1=smt1.executeQuery();
 			table.setModel(DbUtils.resultSetToTableModel(rs1));
 		}
@@ -97,8 +100,8 @@ public class Manager extends JFrame {
 			e.printStackTrace();
 		}
 
-		JButton button_1 = new JButton("Logout");
-		button_1.addActionListener(new ActionListener() {
+		JButton btnLogout = new JButton("LOGOUT");
+		btnLogout.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				contentPane.setVisible(false);
@@ -106,17 +109,17 @@ public class Manager extends JFrame {
 				Login.main(null);
 			}
 		});
-		button_1.setFont(new Font("Times New Roman", Font.PLAIN, 20));
-		button_1.setBounds(641, 64, 116, 37);
-		contentPane.add(button_1);
+		btnLogout.setFont(new Font("Times New Roman", Font.PLAIN, 20));
+		btnLogout.setBounds(668, 0, 116, 29);
+		contentPane.add(btnLogout);
 
-		JLabel lblArtWorkAvailable = new JLabel("Art work available in your category:");
+		JLabel lblArtWorkAvailable = new JLabel("ARTWORKS AVAILABLE IN THE GALLERY:");
 		lblArtWorkAvailable.setForeground(Color.WHITE);
 		lblArtWorkAvailable.setFont(new Font("Times New Roman", Font.BOLD, 24));
 		lblArtWorkAvailable.setBounds(24, 112, 551, 29);
 		contentPane.add(lblArtWorkAvailable);
 
-		JButton btnAddArtworkTo_1 = new JButton("Add Artwork to Exhibition");
+		JButton btnAddArtworkTo_1 = new JButton("ADD EXHIBITION");
 		btnAddArtworkTo_1.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
@@ -128,59 +131,34 @@ public class Manager extends JFrame {
 			}
 		});
 		btnAddArtworkTo_1.setFont(new Font("Times New Roman", Font.PLAIN, 20));
-		btnAddArtworkTo_1.setBounds(330, 64, 257, 37);
+		btnAddArtworkTo_1.setBounds(267, 64, 220, 37);
 		contentPane.add(btnAddArtworkTo_1);
-
-		JButton button = new JButton("Art_ID");
-		button.setFont(new Font("Times New Roman", Font.PLAIN, 12));
-		button.setBounds(25, 140, 92, 23);
-		contentPane.add(button);
-
-		JButton button_2 = new JButton("Artist_ID");
-		button_2.setFont(new Font("Times New Roman", Font.PLAIN, 12));
-		button_2.setBounds(116, 140, 93, 23);
-		contentPane.add(button_2);
-
-		JButton button_3 = new JButton("Name");
-		button_3.setFont(new Font("Times New Roman", Font.PLAIN, 12));
-		button_3.setBounds(205, 140, 96, 23);
-		contentPane.add(button_3);
-
-		JButton button_4 = new JButton("Year");
-		button_4.setFont(new Font("Times New Roman", Font.PLAIN, 12));
-		button_4.setBounds(300, 140, 92, 23);
-		contentPane.add(button_4);
-
-		JButton button_5 = new JButton("Cat_ID");
-		button_5.setFont(new Font("Times New Roman", Font.PLAIN, 12));
-		button_5.setBounds(390, 140, 94, 23);
-		contentPane.add(button_5);
-
-		JButton button_6 = new JButton("Price");
-		button_6.setFont(new Font("Times New Roman", Font.PLAIN, 12));
-		button_6.setBounds(483, 140, 92, 23);
-		contentPane.add(button_6);
-
-		JButton button_7 = new JButton("Gallery_ID");
-		button_7.setFont(new Font("Times New Roman", Font.PLAIN, 12));
-		button_7.setBounds(574, 140, 93, 23);
-		contentPane.add(button_7);
-
-		JButton button_8 = new JButton("Exhib_ID");
-		button_8.setFont(new Font("Times New Roman", Font.PLAIN, 12));
-		button_8.setBounds(666, 140, 91, 23);
-		contentPane.add(button_8);
 		
 		JLabel lblAdmin = new JLabel("Admin");
 		lblAdmin.setForeground(UIManager.getColor("ToolTip.background"));
 		lblAdmin.setFont(new Font("Tahoma", Font.PLAIN, 20));
 		lblAdmin.setBounds(10, 11, 100, 35);
 		contentPane.add(lblAdmin);
-
-		JLabel label = new JLabel("");
 		Image img= new ImageIcon(this.getClass().getResource("back.jpg")).getImage();
-		label.setIcon(new ImageIcon(img));
-		label.setBounds(0, 0, 784, 561);
-		contentPane.add(label);
+		
+		JButton btnAddArtworkTo_1_1 = new JButton("DELETE EXHIBITION");
+		btnAddArtworkTo_1_1.addActionListener(new ActionListener() {
+		public void actionPerformed(ActionEvent arg0) {
+			contentPane.setVisible(false);
+			dispose();
+			MID=msg;
+			DeleteExhibition AW= new DeleteExhibition(MID);
+			AW.setVisible(true);
+		}
+	});
+		btnAddArtworkTo_1_1.setFont(new Font("Times New Roman", Font.PLAIN, 20));
+		btnAddArtworkTo_1_1.setBounds(485, 64, 236, 37);
+		contentPane.add(btnAddArtworkTo_1_1);
+
+		
+				JLabel label = new JLabel("");
+				label.setIcon(new ImageIcon(img));
+				label.setBounds(10, 10, 784, 561);
+				contentPane.add(label);
 	}
 }

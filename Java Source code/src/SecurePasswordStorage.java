@@ -9,35 +9,12 @@ import javax.crypto.SecretKeyFactory;
 import javax.crypto.spec.PBEKeySpec;
  
 public class SecurePasswordStorage{
- 
-    private Map<String, UserInfo> userDatabase = new HashMap<String,UserInfo>();
- 
-//    public static void main(String[] args) throws Exception {
-//    	SecurePasswordStorage passManager = new SecurePasswordStorage();
-//        String userName = "admin";
-//        String password = "password";
-//        passManager.signUp(userName, password);
-// 
-//        Scanner scanner = new Scanner(System.in);
-//        System.out.println("Please enter username:");
-//        String inputUser = scanner.nextLine();
-// 
-//        System.out.println("Please enter password:");
-//        String inputPass = scanner.nextLine();
-// 
-//        boolean status = passManager.authenticateUser(inputUser, inputPass,salt);
-//        if (status) {
-//            System.out.println("Logged in!");
-//        } else {
-//            System.out.println("Sorry, wrong username/password");
-//        }
-//        scanner.close();
-//    }
-// 
+
     public boolean authenticateUser(String inputPass, String salt, String dbpass) throws Exception {
 
             String calculatedHash = getEncryptedPassword(inputPass, salt);
-            if (calculatedHash.equals(dbpass)) {
+            System.out.println(calculatedHash);
+            if (calculatedHash.toUpperCase().equals(dbpass.toUpperCase())) {
                 return true;
             } else {
                 return false;
@@ -46,9 +23,8 @@ public class SecurePasswordStorage{
     
  
     public String signUp(String password, String usrsalt) throws Exception {
-        usrsalt = getNewSalt();
-        String encryptedPassword = getEncryptedPassword(password, usrsalt);
-        return encryptedPassword,salts;
+        String encryptedPassword = getEncryptedPassword(password, usrsalt);       
+        return encryptedPassword.toUpperCase();
     }
  
     // Get a encrypted password using PBKDF2 hash algorithm
@@ -72,7 +48,7 @@ public class SecurePasswordStorage{
         // NIST recommends minimum 4 bytes. We use 8.
         byte[] salt = new byte[8];
         random.nextBytes(salt);
-        return Base64.getEncoder().encodeToString(salt);
+        return Base64.getEncoder().encodeToString(salt).toUpperCase();
     }
  
  

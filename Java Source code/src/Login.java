@@ -85,45 +85,18 @@ public class Login {
 		lblNewMember.setBounds(107, 378, 192, 35);
 		frame.getContentPane().add(lblNewMember);
 
-		JButton btnRegister = new JButton("Create an Account");
-		btnRegister.setForeground(UIManager.getColor("Label.foreground"));
-		btnRegister.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent arg0) {
-				frame.dispose();
-				CustomerRegisteration CR= new CustomerRegisteration();
-				CR.setVisible(true);
-			}
-		});
-		btnRegister.setFont(new Font("Tahoma", Font.PLAIN, 17));
-		btnRegister.setBounds(107, 412, 222, 23);
-		frame.getContentPane().add(btnRegister);
-
-		JButton btnArtist = new JButton("Artist");
+		JButton btnArtist = new JButton("Create account");
 		btnArtist.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				frame.dispose();
-				ArtistRegistration AR= new ArtistRegistration();
+				SignUp AR= new SignUp();
 				AR.setVisible(true);
 			}
 		});
 		btnArtist.setFont(new Font("Times New Roman", Font.PLAIN, 20));
-		btnArtist.setBounds(578, 465, 174, 23);
+		btnArtist.setBounds(95, 410, 174, 23);
 		frame.getContentPane().add(btnArtist);
-
-		JButton btnNewButton = new JButton("Gallery");
-		btnNewButton.setFont(new Font("Times New Roman", Font.PLAIN, 20));
-		btnNewButton.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent arg0) {
-				frame.dispose();
-				GalleryRegistration GR= new GalleryRegistration();
-				GR.setVisible(true);
-			}
-		});
-		btnNewButton.setBounds(582, 499, 174, 23);
-		frame.getContentPane().add(btnNewButton);
 
 		JButton btnLogin = new JButton("Login");
 		btnLogin.addActionListener(new ActionListener() {
@@ -177,7 +150,7 @@ public class Login {
 						Customer C= new Customer(userid);
 						C.setVisible(true);
 					}
-					else if(entity.equals("ADMIN")) {
+					else if(entity.equals("STAFF")) {
 						JOptionPane.showMessageDialog(null,"Logging in as a Manager");
 						frame.dispose();
 						Manager M= new Manager(userid);

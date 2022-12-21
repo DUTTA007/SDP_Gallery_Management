@@ -26,13 +26,15 @@ public class Exhi extends JFrame {
 
 	private JPanel contentPane;
 	private JTextField aid;
-	private JTextField eid;
 	public static String msg=null;
 	public static String GID=null;
 	java.sql.Connection connection=Connection.Dbconnection();
 	java.sql.Connection connection1=Connection.Dbconnection();
 	java.sql.Connection connection2=Connection.Dbconnection();
 	private JTable table;
+	private JTextField textField;
+	private JTextField textField_1;
+	private JTextField textField_2;
 	public static void main(String[] args) {
 		EventQueue.invokeLater(new Runnable() {
 			@Override
@@ -58,43 +60,51 @@ public class Exhi extends JFrame {
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
 
-		JLabel label = new JLabel("NEW ART WORK");
+		JLabel label = new JLabel("NEW EXHIBITION WORK");
 		label.setHorizontalAlignment(SwingConstants.CENTER);
 		label.setForeground(Color.WHITE);
 		label.setFont(new Font("Times New Roman", Font.BOLD, 36));
 		label.setBounds(29, 31, 715, 42);
 		contentPane.add(label);
 
-		JLabel label_1 = new JLabel("Art ID");
-		label_1.setForeground(Color.WHITE);
-		label_1.setFont(new Font("Tahoma", Font.PLAIN, 17));
-		label_1.setBounds(22, 222, 151, 27);
-		contentPane.add(label_1);
+		JLabel lblArtId = new JLabel("PAINTING ID");
+		lblArtId.setForeground(Color.WHITE);
+		lblArtId.setFont(new Font("Tahoma", Font.PLAIN, 17));
+		lblArtId.setBounds(22, 119, 151, 27);
+		contentPane.add(lblArtId);
 
 		aid = new JTextField();
 		aid.setColumns(10);
-		aid.setBounds(183, 222, 302, 22);
+		aid.setBounds(183, 125, 302, 22);
 		contentPane.add(aid);
+		
+		table = new JTable();
+		table.setBounds(24, 309, 744, 180);
+		contentPane.add(table);
+		try{
+			PreparedStatement smt= connection.prepareStatement("select * from EXHIBITION");
+			ResultSet rs=smt.executeQuery();
+			table.setModel(DbUtils.resultSetToTableModel(rs));
+		}
+		catch(Exception e){
+			e.printStackTrace();
+		}
 
 		JButton button = new JButton("Submit");
 		button.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				try{
-					PreparedStatement smt= connection1.prepareStatement("Select Gallery_ID from MANAGER where Manager_ID=?");
-					smt.setString(1,msg);
-					ResultSet rs=smt.executeQuery();
-					if(rs.next())
-						GID=rs.getString("Gallery_ID");
-					PreparedStatement smt1= connection2.prepareStatement("update ARTWORK set Exhibition_ID=? where Art_ID=? and Gallery_ID =?");
-					smt1.setString(1,eid.getText());
-					smt1.setString(2,aid.getText());
-					smt1.setString(3,GID);
+					PreparedStatement smt1= connection2.prepareStatement("INSERT INTO EXHIBITION(EXHIBITION_TITLE,ESTART_DATE,EEND_DATE,PAINTING_ID)VALUES (?,?,?,?)"
+							+ "");
+					smt1.setString(1,textField.getText());
+					smt1.setString(2,textField_1.getText());
+					smt1.setString(3,textField_2.getText());
+					smt1.setString(4,aid.getText());
 					boolean rs1=smt1.execute();
 					if(rs1){
-						JOptionPane.showMessageDialog(null,"Art work updated");
+						JOptionPane.showMessageDialog(null,"EXHIBITION ADDED!");
 					}
-					smt.close();
 				}
 				 catch(Exception ex){
 					   JOptionPane.showMessageDialog(null,ex);
@@ -106,66 +116,10 @@ public class Exhi extends JFrame {
 			}
 		});
 		button.setFont(new Font("Tahoma", Font.PLAIN, 17));
-		button.setBounds(183, 293, 100, 30);
+		button.setBounds(272, 269, 100, 30);
 		contentPane.add(button);
 
-		JLabel lblExhibitionId = new JLabel("Exhibition ID");
-		lblExhibitionId.setForeground(Color.WHITE);
-		lblExhibitionId.setFont(new Font("Tahoma", Font.PLAIN, 17));
-		lblExhibitionId.setBounds(22, 253, 151, 27);
-		contentPane.add(lblExhibitionId);
 
-		eid = new JTextField();
-		eid.setColumns(10);
-		eid.setBounds(183, 260, 302, 22);
-		contentPane.add(eid);
-
-		table = new JTable();
-		table.setBounds(22, 377, 746, 112);
-		contentPane.add(table);
-		try{
-			PreparedStatement smt= connection.prepareStatement("select * from EXHIBITIONS");
-			ResultSet rs=smt.executeQuery();
-			table.setModel(DbUtils.resultSetToTableModel(rs));
-		}
-		catch(Exception e){
-			e.printStackTrace();
-		}
-
-		JButton button_1 = new JButton("Exhi_ID");
-		button_1.setFont(new Font("Tahoma", Font.PLAIN, 12));
-		button_1.setBounds(22, 354, 107, 23);
-		contentPane.add(button_1);
-
-		JButton button_2 = new JButton("Date");
-		button_2.setFont(new Font("Tahoma", Font.PLAIN, 12));
-		button_2.setBounds(127, 354, 109, 23);
-		contentPane.add(button_2);
-
-		JButton button_3 = new JButton("Location");
-		button_3.setFont(new Font("Tahoma", Font.PLAIN, 12));
-		button_3.setBounds(233, 354, 109, 23);
-		contentPane.add(button_3);
-
-		JButton button_4 = new JButton("Time");
-		button_4.setFont(new Font("Tahoma", Font.PLAIN, 12));
-		button_4.setBounds(339, 354, 109, 23);
-		contentPane.add(button_4);
-
-		JButton button_5 = new JButton("Day");
-		button_5.setFont(new Font("Tahoma", Font.PLAIN, 12));
-		button_5.setBounds(445, 354, 109, 23);
-		contentPane.add(button_5);
-
-		JButton button_6 = new JButton("Reg_Fee");
-		button_6.setFont(new Font("Tahoma", Font.PLAIN, 12));
-		button_6.setBounds(553, 354, 109, 23);
-		contentPane.add(button_6);
-
-		JButton button_7 = new JButton("NoOfArt");
-		button_7.setFont(new Font("Tahoma", Font.PLAIN, 12));
-		button_7.setBounds(659, 354, 109, 23);
-		contentPane.add(button_7);
 		Image img= new ImageIcon(this.getClass().getResource("back.jpg")).getImage();
 		
 		JLabel lblArtist = new JLabel("Artist");
@@ -173,11 +127,44 @@ public class Exhi extends JFrame {
 		lblArtist.setFont(new Font("Tahoma", Font.PLAIN, 20));
 		lblArtist.setBounds(10, 11, 100, 35);
 		contentPane.add(lblArtist);
-		
-				JLabel label_2 = new JLabel("");
-				label_2.setIcon(new ImageIcon(img));
-				label_2.setBounds(0, 0, 784, 561);
-				contentPane.add(label_2);
+				
+				JLabel label_1_2 = new JLabel("EXHIBITION TITLE");
+				label_1_2.setForeground(Color.WHITE);
+				label_1_2.setFont(new Font("Tahoma", Font.PLAIN, 17));
+				label_1_2.setBounds(22, 156, 151, 27);
+				contentPane.add(label_1_2);
+						
+						textField = new JTextField();
+						textField.setColumns(10);
+						textField.setBounds(183, 162, 302, 22);
+						contentPane.add(textField);
+						
+						JLabel label_1_2_1 = new JLabel("START DATE");
+						label_1_2_1.setForeground(Color.WHITE);
+						label_1_2_1.setFont(new Font("Tahoma", Font.PLAIN, 17));
+						label_1_2_1.setBounds(22, 193, 151, 27);
+						contentPane.add(label_1_2_1);
+						
+						textField_1 = new JTextField();
+						textField_1.setColumns(10);
+						textField_1.setBounds(183, 199, 302, 22);
+						contentPane.add(textField_1);
+								
+								JLabel lblEndDate = new JLabel("END DATE");
+								lblEndDate.setForeground(Color.WHITE);
+								lblEndDate.setFont(new Font("Tahoma", Font.PLAIN, 17));
+								lblEndDate.setBounds(22, 226, 151, 27);
+								contentPane.add(lblEndDate);
+								
+								textField_2 = new JTextField();
+								textField_2.setColumns(10);
+								textField_2.setBounds(183, 231, 302, 22);
+								contentPane.add(textField_2);
+								
+										JLabel label_2 = new JLabel("");
+										label_2.setIcon(new ImageIcon(img));
+										label_2.setBounds(0, 0, 784, 561);
+										contentPane.add(label_2);
 
 	}
 }
